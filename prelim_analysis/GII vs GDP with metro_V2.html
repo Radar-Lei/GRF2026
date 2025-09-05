@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .chart-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            margin: 20px auto;
+            border: 2px solid #333;
+            background: white;
+        }
+        
+        /* Quadrant backgrounds */
+        .quadrant {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+        }
+        .quadrant-top-left {
+            top: 0;
+            left: 0;
+            background-color: rgba(255, 235, 230, 0.6); /* Light pink */
+        }
+        .quadrant-top-right {
+            top: 0;
+            right: 0;
+            background-color: rgba(230, 245, 230, 0.6); /* Light green */
+        }
+        .quadrant-bottom-left {
+            bottom: 0;
+            left: 0;
+            background-color: rgba(255, 245, 230, 0.6); /* Light orange */
+        }
+        .quadrant-bottom-right {
+            bottom: 0;
+            right: 0;
+            background-color: rgba(230, 240, 255, 0.6); /* Light blue */
+        }
+        
+        .axis {
+            position: absolute;
+            background-color: #333;
+            z-index: 10;
+        }
+        .x-axis {
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+        }
+        .y-axis {
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+        }
+        
+        /* Quadrant lines */
+        .quadrant-line-x {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #999;
+            top: 50%;
+            z-index: 15;
+        }
+        .quadrant-line-y {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 1px;
+            background-color: #999;
+            left: 50%;
+            z-index: 15;
+        }
+        
+        .axis-label {
+            position: absolute;
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+        .x-label {
+            bottom: -40px;
+            right: 10px;
+        }
+        .y-label {
+            top: 10px;
+            left: -40px;
+            transform: rotate(90deg);
+            transform-origin: left bottom;
+        }
+        .point {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            transform: translate(-4px, -4px);
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 20;
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+        .point:hover {
+            width: 12px;
+            height: 12px;
+            transform: translate(-6px, -6px);
+            z-index: 100;
+        }
+        .point.asia { background-color: #dc3545; border-color: #fff; }
+        .point.europe { background-color: #007bff; border-color: #fff; }
+        .point.north-america { background-color: #28a745; border-color: #fff; }
+        .point.south-america { background-color: #fd7e14; border-color: #fff; }
+        .point.africa { background-color: #6f42c1; border-color: #fff; }
+        .point.oceania { background-color: #20c997; border-color: #fff; }
+        
+        .point.asia:hover { background-color: #c82333; }
+        .point.europe:hover { background-color: #0056b3; }
+        .point.north-america:hover { background-color: #1e7e34; }
+        .point.south-america:hover { background-color: #e55a00; }
+        .point.africa:hover { background-color: #59309c; }
+        .point.oceania:hover { background-color: #17a673; }
+        
+        .highlighted-point {
+            width: 12px;
+            height: 12px;
+            transform: translate(-6px, -6px);
+            border: 3px solid #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        
+        .point-label {
+            position: absolute;
+            background: rgba(0,0,0,0.85);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 1000;
+            white-space: nowrap;
+            pointer-events: none;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.85);
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 1000;
+            max-width: 200px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .legend {
+            margin-top: 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.2);
+        }
+        .scale-labels {
+            position: absolute;
+            font-size: 10px;
+            color: #666;
+            z-index: 25;
+        }
+        .x-scale {
+            bottom: -25px;
+            transform: translateX(-50%);
+        }
+        .y-scale {
+            left: -50px;
+            transform: translateY(50%);
+            text-align: right;
+            width: 45px;
+        }
+        .note {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9f7df;
+            border-left: 4px solid #28a745;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #155724;
+        }
+        
+        /* Quadrant labels */
+        .quadrant-label {
+            position: absolute;
+            font-size: 12px;
+            font-weight: bold;
+            color: #666;
+            z-index: 5;
+            text-align: center;
+            width: 120px;
+        }
+        .quadrant-label-tl {
+            top: 20px;
+            left: 20px;
+        }
+        .quadrant-label-tr {
+            top: 20px;
+            right: 20px;
+        }
+        .quadrant-label-bl {
+            bottom: 20px;
+            left: 20px;
+        }
+        .quadrant-label-br {
+            bottom: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="chart-container" id="chart">
+            <!-- Quadrant backgrounds -->
+            <div class="quadrant quadrant-top-left"></div>
+            <div class="quadrant quadrant-top-right"></div>
+            <div class="quadrant quadrant-bottom-left"></div>
+            <div class="quadrant quadrant-bottom-right"></div>
+            
+            <!-- Quadrant labels -->
+            <div class="quadrant-label quadrant-label-tl">Low GDP<br>High GII</div>
+            <div class="quadrant-label quadrant-label-tr">High GDP<br>High GII</div>
+            <div class="quadrant-label quadrant-label-bl">Low GDP<br>Low GII</div>
+            <div class="quadrant-label quadrant-label-br">High GDP<br>Low GII</div>
+            
+            <!-- Quadrant lines -->
+            <div class="quadrant-line-x"></div>
+            <div class="quadrant-line-y"></div>
+            
+            <!-- Axes -->
+            <div class="axis x-axis"></div>
+            <div class="axis y-axis"></div>
+            
+            <!-- Axis Labels -->
+            <div class="axis-label x-label">GDP per Capita ($) →</div>
+            <div class="axis-label y-label">← Gender Inequality Index</div>
+            
+            <!-- Scale Labels -->
+            <div class="scale-labels x-scale" style="left: 0%;">$0</div>
+            <div class="scale-labels x-scale" style="left: 25%;">$32.5K</div>
+            <div class="scale-labels x-scale" style="left: 50%;">$65K</div>
+            <div class="scale-labels x-scale" style="left: 75%;">$97.5K</div>
+            <div class="scale-labels x-scale" style="left: 100%;">$130K</div>
+            
+            <div class="scale-labels y-scale" style="top: 0%;">0.55</div>
+            <div class="scale-labels y-scale" style="top: 25%;">0.41</div>
+            <div class="scale-labels y-scale" style="top: 50%;">0.275</div>
+            <div class="scale-labels y-scale" style="top: 75%;">0.14</div>
+            <div class="scale-labels y-scale" style="top: 100%;">0</div>
+        </div>
+        
+        <div class="tooltip" id="tooltip"></div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #dc3545;"></div>
+                Asia
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #007bff;"></div>
+                Europe
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #28a745;"></div>
+                North America
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #fd7e14;"></div>
+                South America
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #6f42c1;"></div>
+                Africa
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #20c997;"></div>
+                Oceania
+            </div>
+        </div>
+        
+        <div class="note">
+            <strong>Note:</strong> The selection of cities for case studies will not only rely on these two indicators.
+        </div>
+    </div>
+
+    <script>
+        // Countries with metro systems by continent
+        const countries = [
+            // Asia
+            {name: "China", gdp: 22137.6, gii: 0.132, continent: "asia"},
+            {name: "India", gdp: 9160.063, gii: 0.403, continent: "asia"},
+            {name: "Japan", gdp: 46157.637, gii: 0.059, continent: "asia"},
+            {name: "South Korea", gdp: 50572.25, gii: 0.038, continent: "asia"},
+            {name: "Hong Kong SAR, China", gdp: 64467.574, gii: 0.056, continent: "asia", highlighted: true},
+            {name: "Singapore", gdp: 127543.555, gii: 0.031, continent: "asia"},
+            {name: "Malaysia", gdp: 32812.3, gii: 0.172, continent: "asia"},
+            {name: "Thailand", gdp: 21142.664, gii: 0.288, continent: "asia"},
+            {name: "Iran", gdp: 15912.03, gii: 0.482, continent: "asia"},
+            {name: "Pakistan", gdp: 5439.1875, gii: 0.536, continent: "asia"},
+            {name: "Bangladesh", gdp: 8242.398, gii: 0.487, continent: "asia"},
+            {name: "Philippines", gdp: 9901.057, gii: 0.351, continent: "asia"},
+            {name: "Vietnam", gdp: 13491.88, gii: 0.299, continent: "asia"},
+            {name: "Uzbekistan", gdp: 10007.686, gii: 0.291, continent: "asia"},
+            {name: "Azerbaijan", gdp: 21262.299, gii: 0.315, continent: "asia"},
+            {name: "Kazakhstan", gdp: 34703.234, gii: 0.182, continent: "asia"},
+            {name: "Armenia", gdp: 19230.19, gii: 0.18, continent: "asia"},
+            {name: "Georgia", gdp: 22590.53, gii: 0.257, continent: "asia"},
+            
+            // Special cases for India and Saudi Arabia with city names
+            {name: "Delhi, India", gdp: 9160.063, gii: 0.403, continent: "asia", highlighted: true},
+            {name: "Riyadh, Saudi Arabia", gdp: 55055.4, gii: 0.228, continent: "asia"},
+            
+            // Europe
+            {name: "Germany", gdp: 63578.14, gii: 0.057, continent: "europe"},
+            {name: "United Kingdom", gdp: 54542.016, gii: 0.083, continent: "europe"},
+            {name: "France", gdp: 55441.188, gii: 0.034, continent: "europe"},
+            {name: "Spain", gdp: 47141.543, gii: 0.043, continent: "europe"},
+            {name: "Italy", gdp: 53312.07, gii: 0.043, continent: "europe"},
+            {name: "Netherlands", gdp: 71446.695, gii: 0.013, continent: "europe"},
+            {name: "Sweden", gdp: 63114.68, gii: 0.007, continent: "europe"},
+            {name: "Norway", gdp: 90469.81, gii: 0.004, continent: "europe"},
+            {name: "Denmark", gdp: 72097.305, gii: 0.003, continent: "europe"},
+            {name: "Finland", gdp: 57063.523, gii: 0.021, continent: "europe"},
+            {name: "Austria", gdp: 65015.133, gii: 0.033, continent: "europe"},
+            {name: "Switzerland", gdp: 82557.55, gii: 0.01, continent: "europe"},
+            {name: "Belgium", gdp: 64185.848, gii: 0.031, continent: "europe"},
+            {name: "Portugal", gdp: 41755.48, gii: 0.076, continent: "europe"},
+            {name: "Greece", gdp: 36905.453, gii: 0.103, continent: "europe"},
+            {name: "Czechia", gdp: 49681.06, gii: 0.088, continent: "europe"},
+            {name: "Poland", gdp: 44384.168, gii: 0.081, continent: "europe"},
+            {name: "Romania", gdp: 40665.527, gii: 0.227, continent: "europe"},
+            {name: "Bulgaria", gdp: 33403.375, gii: 0.208, continent: "europe"},
+            {name: "Belarus", gdp: 27718.322, gii: 0.08, continent: "europe"},
+            {name: "Russia", gdp: 39753.457, gii: 0.169, continent: "europe"},
+            
+            // North America
+            {name: "United States", gdp: 74577.51, gii: 0.169, continent: "north-america"},
+            {name: "Canada", gdp: 55918.93, gii: 0.052, continent: "north-america"},
+            {name: "Mexico", gdp: 22142.607, gii: 0.358, continent: "north-america"},
+            {name: "Panama", gdp: 35863.88, gii: 0.374, continent: "north-america"},
+            {name: "Dominican Republic", gdp: 23087.934, gii: 0.417, continent: "north-america"},
+            
+            // South America
+            {name: "Brazil", gdp: 19018.238, gii: 0.39, continent: "south-america"},
+            {name: "Chile", gdp: 29462.64, gii: 0.102, continent: "south-america"},
+            {name: "Argentina", gdp: 27104.98, gii: 0.264, continent: "south-america"},
+            {name: "Peru", gdp: 15294.257, gii: 0.34, continent: "south-america"},
+            {name: "Colombia", gdp: 18692.385, gii: 0.393, continent: "south-america"},
+            {name: "Ecuador", gdp: 14472.316, gii: 0.358, continent: "south-america"},
+            {name: "Uruguay", gdp: 31019.31, gii: 0.218, continent: "south-america"},
+            
+            // Africa
+            {name: "Egypt", gdp: 16691.133, gii: 0.398, continent: "africa"},
+            {name: "Algeria", gdp: 15159.324, gii: 0.443, continent: "africa"},
+            {name: "Morocco", gdp: 8868.712, gii: 0.438, continent: "africa"},
+            
+            // Middle East (Asia)
+            {name: "Turkey", gdp: 34609.914, gii: 0.227, continent: "asia"},
+            {name: "United Arab Emirates", gdp: 68577.54, gii: 0.04, continent: "asia"},
+            {name: "Doha, Qatar", gdp: 116159.14, gii: 0.195, continent: "asia",  highlighted: true},
+            {name: "Israel", gdp: 48432.11, gii: 0.08, continent: "asia"},
+            
+            // Oceania
+            {name: "Australia", gdp: 59552.88, gii: 0.056, continent: "oceania"}
+        ];
+
+        const chart = document.getElementById('chart');
+        const tooltip = document.getElementById('tooltip');
+        
+        // Chart dimensions
+        const chartWidth = 800;
+        const chartHeight = 600;
+        
+        // Chart ranges
+        const minGDP = 0;
+        const maxGDP = 130000;
+        const minGII = 0;
+        const maxGII = 0.55;
+        
+        // Highlighted cities to show labels
+        const highlightedCities = ['Hong Kong SAR, China', 'Delhi, India', 'Doha, Qatar'];
+        
+        // Plot points
+        countries.forEach(country => {
+            const point = document.createElement('div');
+            point.className = `point ${country.continent}`;
+            
+            // Check if this is a highlighted city
+            if (highlightedCities.includes(country.name)) {
+                point.classList.add('highlighted-point');
+            }
+            
+            // Calculate position
+            const x = ((country.gdp - minGDP) / (maxGDP - minGDP)) * chartWidth;
+            const y = chartHeight - ((country.gii - minGII) / (maxGII - minGII)) * chartHeight;
+            
+            // Clamp values to stay within chart bounds
+            const clampedX = Math.max(0, Math.min(chartWidth, x));
+            const clampedY = Math.max(0, Math.min(chartHeight, y));
+            
+            point.style.left = clampedX + 'px';
+            point.style.top = clampedY + 'px';
+            
+            // Add permanent label for highlighted cities
+            if (highlightedCities.includes(country.name)) {
+                const label = document.createElement('div');
+                label.className = 'point-label';
+                label.innerHTML = `
+                    <strong>${country.name}</strong><br>
+                    GDP per Capita: $${country.gdp.toLocaleString()}<br>
+                    GII: ${country.gii}
+                `;
+                
+                // Position label to avoid overlap
+                let labelX = clampedX + 15;
+                let labelY = clampedY - 30;
+                
+                // Adjust label position if it would go off screen
+                if (labelX > chartWidth - 200) labelX = clampedX - 200;
+                if (labelY < 0) labelY = clampedY + 40;
+                
+                label.style.left = labelX + 'px';
+                label.style.top = labelY + 'px';
+                
+                chart.appendChild(label);
+            }
+            
+            // Add hover functionality for non-highlighted points
+            if (!highlightedCities.includes(country.name)) {
+                point.addEventListener('mouseenter', (e) => {
+                    tooltip.innerHTML = `
+                        <strong>${country.name}</strong><br>
+                        GDP per Capita: $${country.gdp.toLocaleString()}<br>
+                        Gender Inequality Index: ${country.gii}<br>
+                        Continent: ${country.continent.charAt(0).toUpperCase() + country.continent.slice(1).replace('-', ' ')}
+                    `;
+                    tooltip.style.opacity = '1';
+                    tooltip.style.left = (e.pageX + 10) + 'px';
+                    tooltip.style.top = (e.pageY - 10) + 'px';
+                });
+                
+                point.addEventListener('mouseleave', () => {
+                    tooltip.style.opacity = '0';
+                });
+            }
+            
+            chart.appendChild(point);
+        });
+    </script>
+</body>
+</html>
