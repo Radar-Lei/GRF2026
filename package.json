@@ -1,0 +1,25 @@
+{
+  "name": "grf2026",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Radar-Lei/GRF2026.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Radar-Lei/GRF2026/issues"
+  },
+  "homepage": "https://github.com/Radar-Lei/GRF2026#readme",
+  "dependencies": {
+    "html2canvas-oklch": "^1.5.0-alpha.0",
+    "puppeteer": "^24.19.0"
+  }
+}

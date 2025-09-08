@@ -1,0 +1,300 @@
+<!DOCTYPE html><html><head><meta name="x-poe-datastore-behavior" content="local_only"><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"><meta http-equiv="x-dns-prefetch-control" content="off"><meta name="x-poe-allow-downloads" content="true"><script src="https://puc.poecdn.net/authenticated_preview_page/standard.3ef2c256959faf5a756d.js"></script>
+    <meta charset="utf-8">
+    <title>Poe</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script src="https://puc.poecdn.net/authenticated_preview_page/disableWebRTC.9710cebe07429a9e8e06.js"></script><script src="https://puc.poecdn.net/authenticated_preview_page/tw.b9024aecac666455e183.js"></script><script src="https://puc.poecdn.net/authenticated_preview_page/deps.faccd16000d314dc16d5.js"></script><script src="https://puc.poecdn.net/authenticated_preview_page/exports.b0f0f482cdeb5302b0b9.js"></script><script src="https://puc.poecdn.net/authenticated_preview_page/renderer.75c73ae6b4235f62945a.js"></script><script>Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; } function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }var _react = require('react'); var _react2 = _interopRequireDefault(_react);
+var _recharts = require('recharts');
+var _lucidereact = require('lucide-react');
+
+const Dashboard = () => {
+  const [selectedCity, setSelectedCity] = _react.useState.call(void 0, 'Hong Kong');
+  const [selectedTimeRange, setSelectedTimeRange] = _react.useState.call(void 0, '7days');
+  const [selectedMetric, setSelectedMetric] = _react.useState.call(void 0, 'safety');
+
+  const cities = ['Hong Kong', 'Delhi', 'Doha'];
+  const timeRanges = [
+    { value: '24hours', label: '24H' },
+    { value: '7days', label: '7D' },
+    { value: '30days', label: '30D' },
+    { value: '90days', label: '3M' }
+  ];
+
+  const metrics = [
+    { value: 'safety', label: 'Safety', color: '#ef4444', score: 4.2 },
+    { value: 'comfort', label: 'Comfort', color: '#f59e0b', score: 3.8 },
+    { value: 'harassment', label: 'Harassment', color: '#dc2626', score: 4.5 },
+    { value: 'accessibility', label: 'Accessibility', color: '#3b82f6', score: 3.6 }
+  ];
+
+  const temporalData = _react.useMemo.call(void 0, () => [
+    { time: '06:00', women: 3.2, men: 2.8 }, { time: '08:00', women: 4.8, men: 3.9 },
+    { time: '10:00', women: 3.1, men: 2.9 }, { time: '12:00', women: 3.4, men: 3.1 },
+    { time: '14:00', women: 3.2, men: 3.0 }, { time: '16:00', women: 4.2, men: 3.7 },
+    { time: '18:00', women: 5.2, men: 4.3 }, { time: '20:00', women: 4.1, men: 3.4 },
+    { time: '22:00', women: 5.1, men: 4.0 }
+  ], []);
+
+  const stationData = [
+    { station: 'Central', women: 4.2, men: 3.1, x: 45, y: 65, reports: 23 },
+    { station: 'Admiralty', women: 3.8, men: 2.9, x: 52, y: 58, reports: 18 },
+    { station: 'TST', women: 4.7, men: 3.4, x: 38, y: 72, reports: 31 },
+    { station: 'Mong Kok', women: 5.1, men: 3.8, x: 35, y: 48, reports: 42 },
+    { station: 'Causeway Bay', women: 4.5, men: 3.2, x: 58, y: 62, reports: 27 },
+    { station: 'North Point', women: 3.9, men: 3.0, x: 65, y: 55, reports: 19 }
+  ];
+
+  const dailyComparison = [
+    { day: 'Mon', women: 4.2, men: 3.1 }, { day: 'Tue', women: 4.1, men: 3.0 },
+    { day: 'Wed', women: 4.4, men: 3.3 }, { day: 'Thu', women: 4.3, men: 3.2 },
+    { day: 'Fri', women: 4.8, men: 3.6 }, { day: 'Sat', women: 3.9, men: 3.0 },
+    { day: 'Sun', women: 3.7, men: 2.9 }
+  ];
+
+  const sentimentTrends = [
+    { month: 'Jan', safety: 3.2, comfort: 3.8, harassment: 4.1, accessibility: 3.5 },
+    { month: 'Feb', safety: 3.1, comfort: 3.7, harassment: 3.9, accessibility: 3.6 },
+    { month: 'Mar', safety: 3.4, comfort: 3.9, harassment: 4.3, accessibility: 3.4 },
+    { month: 'Apr', safety: 3.6, comfort: 4.1, harassment: 4.5, accessibility: 3.7 },
+    { month: 'May', safety: 3.8, comfort: 4.0, harassment: 4.2, accessibility: 3.8 },
+    { month: 'Jun', safety: 3.5, comfort: 3.8, harassment: 4.0, accessibility: 3.6 }
+  ];
+
+  const getHeatmapColor = (value) => {
+    if (value >= 4.5) return '#dc2626';
+    if (value >= 3.5) return '#f59e0b';
+    if (value >= 2.5) return '#eab308';
+    return '#22c55e';
+  };
+
+  return (
+    _react2.default.createElement('div', { className: "min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 p-4"     ,}
+      /* Header */
+      , _react2.default.createElement('div', { className: "mb-4",}
+        , _react2.default.createElement('h1', { className: "text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-1"       ,}, "Gendered Metro Service Quality Dashboard"
+
+        )
+        , _react2.default.createElement('p', { className: "text-gray-600 text-sm" ,}, "Real-time spatial-temporal patterns of gendered mobility concerns"      )
+      )
+
+      /* Controls */
+      , _react2.default.createElement('div', { className: "bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-3 mb-4 border border-white/20"       ,}
+        , _react2.default.createElement('div', { className: "flex flex-wrap gap-3 items-center"   ,}
+          , _react2.default.createElement('div', { className: "flex items-center gap-2"  ,}
+            , _react2.default.createElement(_lucidereact.MapPin, { className: "w-4 h-4 text-purple-600"  ,} )
+            , _react2.default.createElement('select', { value: selectedCity, onChange: (e) => setSelectedCity(e.target.value),
+              className: "border-0 bg-white/80 rounded-lg px-3 py-1 text-sm shadow-sm"      ,}
+              , cities.map(city => _react2.default.createElement('option', { key: city, value: city,}, city))
+            )
+          )
+          , _react2.default.createElement('div', { className: "flex items-center gap-2"  ,}
+            , _react2.default.createElement(_lucidereact.Clock, { className: "w-4 h-4 text-blue-600"  ,} )
+            , _react2.default.createElement('select', { value: selectedTimeRange, onChange: (e) => setSelectedTimeRange(e.target.value),
+              className: "border-0 bg-white/80 rounded-lg px-3 py-1 text-sm shadow-sm"      ,}
+              , timeRanges.map(range => _react2.default.createElement('option', { key: range.value, value: range.value,}, range.label))
+            )
+          )
+          , _react2.default.createElement('div', { className: "flex items-center gap-2"  ,}
+            , _react2.default.createElement(_lucidereact.Filter, { className: "w-4 h-4 text-indigo-600"  ,} )
+            , _react2.default.createElement('select', { value: selectedMetric, onChange: (e) => setSelectedMetric(e.target.value),
+              className: "border-0 bg-white/80 rounded-lg px-3 py-1 text-sm shadow-sm"      ,}
+              , metrics.map(metric => _react2.default.createElement('option', { key: metric.value, value: metric.value,}, metric.label))
+            )
+          )
+        )
+      )
+
+      /* Key Metrics */
+      , _react2.default.createElement('div', { className: "grid grid-cols-2 md:grid-cols-4 gap-3 mb-4"    ,}
+        , metrics.map((metric) => (
+          _react2.default.createElement('div', { key: metric.value, className: "bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-3 border border-white/20"      ,}
+            , _react2.default.createElement('div', { className: "flex items-center justify-between"  ,}
+              , _react2.default.createElement('div', null
+                , _react2.default.createElement('p', { className: "text-xs text-gray-600 font-medium"  ,}, metric.label)
+                , _react2.default.createElement('p', { className: "text-xl font-bold text-gray-900"  ,}, metric.score)
+                , _react2.default.createElement('p', { className: "text-xs text-gray-500" ,}, "/ 5.0" )
+              )
+              , _react2.default.createElement('div', { className: "w-3 h-3 rounded-full"  , style: {backgroundColor: metric.color},})
+            )
+          )
+        ))
+      )
+
+      /* Main Dashboard Grid */
+      , _react2.default.createElement('div', { className: "grid grid-cols-1 lg:grid-cols-3 gap-4"   ,}
+
+        /* Left Column - Charts */
+        , _react2.default.createElement('div', { className: "lg:col-span-2 space-y-4" ,}
+
+          /* Temporal Patterns */
+          , _react2.default.createElement('div', { className: "bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/20"      ,}
+            , _react2.default.createElement('h3', { className: "text-sm font-semibold text-gray-900 mb-3"   ,}, "Hourly Safety Concerns by Gender"    )
+            , _react2.default.createElement(_recharts.ResponsiveContainer, { width: "100%", height: 200,}
+              , _react2.default.createElement(_recharts.LineChart, { data: temporalData,}
+                , _react2.default.createElement(_recharts.CartesianGrid, { strokeDasharray: "3 3" , stroke: "#e5e7eb",} )
+                , _react2.default.createElement(_recharts.XAxis, { dataKey: "time", fontSize: 12,} )
+                , _react2.default.createElement(_recharts.YAxis, { domain: [0, 6], fontSize: 12,} )
+                , _react2.default.createElement(_recharts.Tooltip, { 
+                  contentStyle: {backgroundColor: 'rgba(255,255,255,0.95)', border: 'none', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'},
+                  formatter: (value, name) => [value.toFixed(1), name === 'women' ? 'Women' : 'Men'],}
+                )
+                , _react2.default.createElement(_recharts.Line, { type: "monotone", dataKey: "women", stroke: "#ec4899", strokeWidth: 3, dot: {r: 3},} )
+                , _react2.default.createElement(_recharts.Line, { type: "monotone", dataKey: "men", stroke: "#3b82f6", strokeWidth: 3, dot: {r: 3},} )
+              )
+            )
+          )
+
+          /* Weekly + Trends Row */
+          , _react2.default.createElement('div', { className: "grid grid-cols-1 md:grid-cols-2 gap-4"   ,}
+
+            /* Weekly Comparison */
+            , _react2.default.createElement('div', { className: "bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/20"      ,}
+              , _react2.default.createElement('h3', { className: "text-sm font-semibold text-gray-900 mb-3"   ,}, "Weekly Gender Gap"  )
+              , _react2.default.createElement(_recharts.ResponsiveContainer, { width: "100%", height: 160,}
+                , _react2.default.createElement(_recharts.BarChart, { data: dailyComparison,}
+                  , _react2.default.createElement(_recharts.CartesianGrid, { strokeDasharray: "3 3" , stroke: "#e5e7eb",} )
+                  , _react2.default.createElement(_recharts.XAxis, { dataKey: "day", fontSize: 12,} )
+                  , _react2.default.createElement(_recharts.YAxis, { domain: [0, 5], fontSize: 12,} )
+                  , _react2.default.createElement(_recharts.Tooltip, { 
+                    contentStyle: {backgroundColor: 'rgba(255,255,255,0.95)', border: 'none', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'},}
+                  )
+                  , _react2.default.createElement(_recharts.Bar, { dataKey: "women", fill: "#ec4899", radius: [2, 2, 0, 0],} )
+                  , _react2.default.createElement(_recharts.Bar, { dataKey: "men", fill: "#3b82f6", radius: [2, 2, 0, 0],} )
+                )
+              )
+            )
+
+            /* Sentiment Trends */
+            , _react2.default.createElement('div', { className: "bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/20"      ,}
+              , _react2.default.createElement('h3', { className: "text-sm font-semibold text-gray-900 mb-3"   ,}, "Monthly Trends" )
+              , _react2.default.createElement(_recharts.ResponsiveContainer, { width: "100%", height: 160,}
+                , _react2.default.createElement(_recharts.LineChart, { data: sentimentTrends,}
+                  , _react2.default.createElement(_recharts.CartesianGrid, { strokeDasharray: "3 3" , stroke: "#e5e7eb",} )
+                  , _react2.default.createElement(_recharts.XAxis, { dataKey: "month", fontSize: 12,} )
+                  , _react2.default.createElement(_recharts.YAxis, { domain: [0, 5], fontSize: 12,} )
+                  , _react2.default.createElement(_recharts.Tooltip, { 
+                    contentStyle: {backgroundColor: 'rgba(255,255,255,0.95)', border: 'none', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'},}
+                  )
+                  , _react2.default.createElement(_recharts.Line, { type: "monotone", dataKey: "safety", stroke: "#ef4444", strokeWidth: 2, dot: {r: 2},} )
+                  , _react2.default.createElement(_recharts.Line, { type: "monotone", dataKey: "harassment", stroke: "#dc2626", strokeWidth: 2, dot: {r: 2},} )
+                  , _react2.default.createElement(_recharts.Line, { type: "monotone", dataKey: "comfort", stroke: "#f59e0b", strokeWidth: 2, dot: {r: 2},} )
+                )
+              )
+            )
+          )
+
+          /* Gender Scatter */
+          , _react2.default.createElement('div', { className: "bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/20"      ,}
+            , _react2.default.createElement('h3', { className: "text-sm font-semibold text-gray-900 mb-3"   ,}, "Gender Sentiment Comparison"  )
+            , _react2.default.createElement(_recharts.ResponsiveContainer, { width: "100%", height: 180,}
+              , _react2.default.createElement(_recharts.ScatterChart, { data: stationData,}
+                , _react2.default.createElement(_recharts.CartesianGrid, { strokeDasharray: "3 3" , stroke: "#e5e7eb",} )
+                , _react2.default.createElement(_recharts.XAxis, { dataKey: "men", domain: [2, 5], name: "Men", fontSize: 12,} )
+                , _react2.default.createElement(_recharts.YAxis, { dataKey: "women", domain: [2, 6], name: "Women", fontSize: 12,} )
+                , _react2.default.createElement(_recharts.Tooltip, { 
+                  contentStyle: {backgroundColor: 'rgba(255,255,255,0.95)', border: 'none', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'},
+                  content: ({ active, payload }) => {
+                    if (active && _optionalChain([payload, 'optionalAccess', _ => _[0]])) {
+                      const data = payload[0].payload;
+                      return (
+                        _react2.default.createElement('div', { className: "bg-white/95 p-3 rounded-lg shadow-lg border border-gray-200"     ,}
+                          , _react2.default.createElement('p', { className: "font-semibold text-sm" ,}, data.station)
+                          , _react2.default.createElement('p', { className: "text-xs",}, "Women: " , data.women.toFixed(1))
+                          , _react2.default.createElement('p', { className: "text-xs",}, "Men: " , data.men.toFixed(1))
+                        )
+                      );
+                    }
+                    return null;
+                  },}
+                )
+                , _react2.default.createElement(_recharts.Scatter, { dataKey: "women", fill: "#ec4899",} )
+              )
+            )
+          )
+        )
+
+        /* Right Column - Map & Stations */
+        , _react2.default.createElement('div', { className: "space-y-4",}
+
+          /* Station Heatmap */
+          , _react2.default.createElement('div', { className: "bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/20"      ,}
+            , _react2.default.createElement('h3', { className: "text-sm font-semibold text-gray-900 mb-3"   ,}, "Station Safety Hotspots"  )
+            , _react2.default.createElement('div', { className: "relative bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg h-48"     ,}
+              , _react2.default.createElement('svg', { className: "absolute inset-0 w-full h-full"   ,}
+                , _react2.default.createElement('line', { x1: "10%", y1: "50%", x2: "90%", y2: "50%", stroke: "#9ca3af", strokeWidth: "3", opacity: "0.4",} )
+                , _react2.default.createElement('line', { x1: "30%", y1: "20%", x2: "70%", y2: "80%", stroke: "#9ca3af", strokeWidth: "3", opacity: "0.4",} )
+                , _react2.default.createElement('line', { x1: "20%", y1: "30%", x2: "80%", y2: "70%", stroke: "#9ca3af", strokeWidth: "3", opacity: "0.4",} )
+              )
+
+              , stationData.map((station, index) => (
+                _react2.default.createElement('div', {
+                  key: index,
+                  className: "absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer group"     ,
+                  style: { left: `${station.x}%`, top: `${station.y}%` },}
+
+                  , _react2.default.createElement('div', {
+                    className: "w-3 h-3 rounded-full border-2 border-white shadow-lg transition-transform hover:scale-125"       ,
+                    style: { backgroundColor: getHeatmapColor(station.women) },}
+                  )
+                  , _react2.default.createElement('div', { className: "absolute top-4 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10"               ,}
+                    , station.station, ": " , station.women.toFixed(1)
+                  )
+                )
+              ))
+            )
+
+            , _react2.default.createElement('div', { className: "flex items-center justify-center gap-3 mt-3 text-xs"     ,}
+              , _react2.default.createElement('div', { className: "flex items-center gap-1"  ,}, _react2.default.createElement('div', { className: "w-2 h-2 rounded-full bg-green-500"   ,}), _react2.default.createElement('span', null, "Low"))
+              , _react2.default.createElement('div', { className: "flex items-center gap-1"  ,}, _react2.default.createElement('div', { className: "w-2 h-2 rounded-full bg-yellow-500"   ,}), _react2.default.createElement('span', null, "Med"))
+              , _react2.default.createElement('div', { className: "flex items-center gap-1"  ,}, _react2.default.createElement('div', { className: "w-2 h-2 rounded-full bg-orange-500"   ,}), _react2.default.createElement('span', null, "High"))
+              , _react2.default.createElement('div', { className: "flex items-center gap-1"  ,}, _react2.default.createElement('div', { className: "w-2 h-2 rounded-full bg-red-600"   ,}), _react2.default.createElement('span', null, "Critical"))
+            )
+          )
+
+          /* Priority Stations */
+          , _react2.default.createElement('div', { className: "bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/20"      ,}
+            , _react2.default.createElement('h3', { className: "text-sm font-semibold text-gray-900 mb-3"   ,}, "Priority Stations" )
+            , _react2.default.createElement('div', { className: "space-y-2",}
+              , stationData
+                .sort((a, b) => b.women - a.women)
+                .slice(0, 6)
+                .map((station, index) => (
+                  _react2.default.createElement('div', { key: index, className: "flex items-center justify-between p-2 bg-white/60 rounded-lg"     ,}
+                    , _react2.default.createElement('div', { className: "flex items-center gap-2"  ,}
+                      , _react2.default.createElement('div', { className: "flex items-center justify-center w-5 h-5 bg-red-100 text-red-600 rounded-full text-xs font-semibold"         ,}
+                        , index + 1
+                      )
+                      , _react2.default.createElement('div', null
+                        , _react2.default.createElement('p', { className: "text-sm font-medium text-gray-900"  ,}, station.station)
+                        , _react2.default.createElement('p', { className: "text-xs text-gray-500" ,}, station.reports, " reports" )
+                      )
+                    )
+                    , _react2.default.createElement('div', { className: "text-right",}
+                      , _react2.default.createElement('p', { className: "text-sm font-semibold text-red-600"  ,}, station.women.toFixed(1))
+                    )
+                  )
+                ))
+            )
+          )
+        )
+      )
+
+      /* Footer */
+      , _react2.default.createElement('div', { className: "mt-4 bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-3 border border-white/20"       ,}
+        , _react2.default.createElement('div', { className: "flex items-center justify-between text-xs text-gray-600"    ,}
+          , _react2.default.createElement('span', null, "Data: Social Media Analytics • Updated: "      , new Date().toLocaleTimeString())
+          , _react2.default.createElement('div', { className: "flex items-center gap-1"  ,}
+            , _react2.default.createElement('div', { className: "w-2 h-2 bg-green-500 rounded-full animate-pulse"    ,})
+            , _react2.default.createElement('span', null, "Live")
+          )
+        )
+      )
+    )
+  );
+};
+
+exports. default = Dashboard;
+</script><script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.bd4eeeb8e8e02052ee92.js"></script></head>
+  <body>
+  
+
+<div id="preview-app"></div></body></html>
