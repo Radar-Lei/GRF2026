@@ -100,9 +100,6 @@ const GanttChart = () => {
     , _react2.default.createElement('div', { className: "gantt-chart",}
         /* Title */
         , _react2.default.createElement('div', { className: "text-center mb-6" ,}
-          , _react2.default.createElement('h2', { className: "text-lg text-gray-600" ,}, "Barriers to Women's Mobility in Metro Transit: Social Media Analytics Approach"
-
-          )
           , _react2.default.createElement('p', { className: "text-sm text-gray-500 mt-2"  ,}, "Duration: 24 Months"  )
         )
 
@@ -144,7 +141,7 @@ const GanttChart = () => {
                 
                 return (
                   _react2.default.createElement('div', { key: taskId, className: "gantt-row border-b border-gray-200 hover:bg-gray-50"   ,}
-                    , _react2.default.createElement('div', { className: "w-96 p-3 border-r border-gray-300 text-sm text-gray-700"     ,}
+                    , _react2.default.createElement('div', { className: "w-96 p-3 border-r border-gray-300 text-sm text-gray-700 break-words whitespace-normal"     ,}
                       , _react2.default.createElement('span', { className: "font-medium text-xs text-gray-500 mr-2"   ,}, task.id)
                       , task.name
                     )
