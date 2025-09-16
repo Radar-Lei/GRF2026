@@ -56,38 +56,41 @@
 
 const GanttChart = () => {
   const tasks = [
-    // Task 1: City Selection and Data Collection
-    { id: 'T1.1', name: 'Comprehensive Data Collection Framework', start: 1, duration: 3, color: '#3B82F6' },
-    { id: 'T1.2', name: 'Data Processing Infrastructure', start: 2, duration: 4, color: '#3B82F6' },
-    { id: 'T1.3', name: 'Social Media Data Collection', start: 4, duration: 8, color: '#3B82F6' },
+    // Task 1: City Selection and Social Media Data Collection
+    { id: 'T1.1', name: 'Selection of Global Cities', start: 1, duration: 4, color: '#3B82F6' },
+    { id: 'T1.2', name: 'Social Media Data Collection and Preprocessing', start: 3, duration: 10, color: '#3B82F6' },
     
-    // Task 2: User Profiling
-    { id: 'T2.1', name: 'Multi-modal Demographic Inference Framework', start: 3, duration: 6, color: '#10B981' },
-    { id: 'T2.2', name: 'Transit-Specific Content Filtering', start: 6, duration: 4, color: '#10B981' },
+    // Task 2: User Profiling and Demographic Inference
+    { id: 'T2.1', name: 'Multi-modal Demographic Inference Framework Development', start: 5, duration: 6, color: '#10B981' },
+    { id: 'T2.2', name: 'Metro-Specific Content Filtering', start: 8, duration: 5, color: '#10B981' },
     
-    // Task 3: LLM Development
-    { id: 'T3.1', name: 'LLM Architecture & Training Data Curation', start: 5, duration: 6, color: '#F59E0B' },
-    { id: 'T3.2', name: 'Context Integration & Model Validation', start: 9, duration: 4, color: '#F59E0B' },
+    // Task 3: Development of Customized Large Language Models
+    { id: 'T3.1', name: 'LLM Architecture Development and Training Data Curation', start: 7, duration: 7, color: '#F59E0B' },
+    { id: 'T3.2', name: 'Context Integration and Model Validation Framework', start: 11, duration: 6, color: '#F59E0B' },
     
-    // Task 4: Dashboard and Focus Groups
-    { id: 'T4.1', name: 'Dashboard Development & Data Integration', start: 8, duration: 6, color: '#EF4444' },
-    { id: 'T4.2', name: 'Focus Group Implementation', start: 10, duration: 8, color: '#EF4444' },
+    // Task 4: Focus Group Studies
+    { id: 'T4.1', name: 'Focus Group Implementation in Three Selected Cities', start: 10, duration: 8, color: '#EF4444' },
+    { id: 'T4.2', name: 'LLM Model Enhancement through Focus Group Insights', start: 14, duration: 5, color: '#EF4444' },
+    
+    // Task 5: Integrated Dashboard Development
+    { id: 'T5.1', name: 'Dashboard Architecture and Data Integration Framework', start: 12, duration: 6, color: '#8B5CF6' },
+    { id: 'T5.2', name: 'Deployment and Policy Integration Framework', start: 16, duration: 7, color: '#8B5CF6' },
     
     // Analysis and Reporting
-    { id: 'A1', name: 'Data Analysis & Triangulation', start: 12, duration: 4, color: '#8B5CF6' },
-    { id: 'A2', name: 'Report Writing & Dissemination', start: 15, duration: 6, color: '#8B5CF6' },
-    { id: 'A3', name: 'Knowledge Transfer & Capacity Building', start: 18, duration: 6, color: '#8B5CF6' },
-    { id: 'A4', name: 'International Partnership Development', start: 20, duration: 5, color: '#8B5CF6' },
+    { id: 'A1', name: 'Data Analysis & Triangulation', start: 18, duration: 5, color: '#6366F1' },
+    { id: 'A2', name: 'Report Writing & Dissemination', start: 20, duration: 7, color: '#6366F1' },
+    { id: 'A3', name: 'Knowledge Transfer & Capacity Building', start: 22, duration: 5, color: '#6366F1' },
   ];
 
   const months = Array.from({ length: 24 }, (_, i) => `M${i + 1}`);
   
   const taskCategories = [
-    { name: 'Objective 1: City Selection & Data Collection', color: '#3B82F6', tasks: ['T1.1', 'T1.2', 'T1.3'] },
-    { name: 'Objective 2: User Profiling & Demographics', color: '#10B981', tasks: ['T2.1', 'T2.2'] },
-    { name: 'Objective 3: LLM Development', color: '#F59E0B', tasks: ['T3.1', 'T3.2'] },
-    { name: 'Objective 4: Dashboard & Focus Groups', color: '#EF4444', tasks: ['T4.1', 'T4.2'] },
-    { name: 'Analysis & Reporting', color: '#8B5CF6', tasks: ['A1', 'A2', 'A3', 'A4'] },
+    { name: 'Task 1: City Selection & Social Media Data Collection', color: '#3B82F6', tasks: ['T1.1', 'T1.2'] },
+    { name: 'Task 2: User Profiling & Demographic Inference', color: '#10B981', tasks: ['T2.1', 'T2.2'] },
+    { name: 'Task 3: Development of Customized LLMs', color: '#F59E0B', tasks: ['T3.1', 'T3.2'] },
+    { name: 'Task 4: Focus Group Studies', color: '#EF4444', tasks: ['T4.1', 'T4.2'] },
+    { name: 'Task 5: Integrated Dashboard Development', color: '#8B5CF6', tasks: ['T5.1', 'T5.2'] },
+    { name: 'Analysis & Reporting', color: '#6366F1', tasks: ['A1', 'A2', 'A3'] },
   ];
 
   const getTaskById = (id) => tasks.find(task => task.id === id);
