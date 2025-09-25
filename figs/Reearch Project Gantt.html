@@ -27,7 +27,6 @@
       .gantt-container {
         width: 100%;
         overflow-x: auto;
-        white-space: nowrap;
       }
       .gantt-chart {
         min-width: 2500px;
@@ -35,21 +34,78 @@
       .month-cell {
         width: 80px;
         min-width: 80px;
+        flex-shrink: 0;
         display: inline-block;
       }
       .task-cell {
         width: 80px;
         min-width: 80px;
-        height: 48px;
+        height: auto;
+        min-height: 48px;
+        flex-shrink: 0;
         display: inline-block;
       }
       .gantt-row {
         display: flex;
         width: 100%;
+        align-items: stretch;
       }
       .gantt-header {
         display: flex;
         width: 100%;
+        align-items: stretch;
+      }
+      /* 任务名称区域样式 */
+      .task-name-area {
+        width: 380px;
+        min-width: 380px;
+        max-width: 380px;
+        flex-shrink: 0;
+        padding: 12px;
+        border-right: 1px solid #d1d5db;
+        word-wrap: break-word;
+        word-break: break-word;
+        hyphens: auto;
+        white-space: normal;
+        line-height: 1.4;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .category-name-area {
+        width: 380px;
+        min-width: 380px;
+        max-width: 380px;
+        flex-shrink: 0;
+        padding: 12px;
+        border-right: 1px solid #d1d5db;
+        word-wrap: break-word;
+        word-break: break-word;
+        hyphens: auto;
+        white-space: normal;
+        line-height: 1.4;
+        font-weight: 600;
+      }
+      /* 确保任务名称的布局 */
+      .task-content {
+        word-wrap: break-word;
+        word-break: break-word;
+        hyphens: auto;
+        display: flex;
+        align-items: center;
+        height: 100%;
+      }
+      .task-name {
+        color: #374151;
+        font-size: 14px;
+        line-height: 1.3;
+        font-weight: 500;
+      }
+      /* 时间轴区域 */
+      .timeline-area {
+        display: flex;
+        flex: 1;
+        min-width: 0;
       }
     </style>
   <script src="https://puc.poecdn.net/authenticated_preview_page/disableWebRTC.9710cebe07429a9e8e06.js"></script><script src="https://puc.poecdn.net/authenticated_preview_page/tw.b9024aecac666455e183.js"></script><script src="https://puc.poecdn.net/authenticated_preview_page/deps.faccd16000d314dc16d5.js"></script><script src="https://puc.poecdn.net/authenticated_preview_page/exports.b0f0f482cdeb5302b0b9.js"></script><script src="https://puc.poecdn.net/authenticated_preview_page/renderer.75c73ae6b4235f62945a.js"></script><script>Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _react = require('react'); var _react2 = _interopRequireDefault(_react);
@@ -57,39 +113,39 @@
 const GanttChart = () => {
   const tasks = [
     // Task 1: City Selection and Social Media Data Collection
-    { id: 'T1.1', name: 'Selection of Global Cities', start: 1, duration: 4, color: '#3B82F6' },
-    { id: 'T1.2', name: 'Social Media Data Collection and Preprocessing', start: 3, duration: 10, color: '#3B82F6' },
+    { id: 'T1.1', name: 'Selection of Global Cities (Multidimensional Framework)', start: 1, duration: 3, color: '#3B82F6' },
+    { id: 'T1.2', name: 'Social Media Data Collection and Preprocessing (3-year data)', start: 2, duration: 8, color: '#3B82F6' },
     
     // Task 2: User Profiling and Demographic Inference
-    { id: 'T2.1', name: 'Multi-modal Demographic Inference Framework Development', start: 5, duration: 6, color: '#10B981' },
-    { id: 'T2.2', name: 'Metro-Specific Content Filtering', start: 8, duration: 5, color: '#10B981' },
+    { id: 'T2.1', name: 'Multi-modal Demographic Inference Framework Development', start: 4, duration: 6, color: '#10B981' },
+    { id: 'T2.2', name: 'Metro-Specific Content Filtering (LLM-driven)', start: 7, duration: 5, color: '#10B981' },
     
     // Task 3: Development of Customized Large Language Models
-    { id: 'T3.1', name: 'LLM Architecture Development and Training Data Curation', start: 7, duration: 7, color: '#F59E0B' },
-    { id: 'T3.2', name: 'Context Integration and Model Validation Framework', start: 11, duration: 6, color: '#F59E0B' },
+    { id: 'T3.1', name: 'LLM Architecture Development and Training Data Curation', start: 6, duration: 7, color: '#F59E0B' },
+    { id: 'T3.2', name: 'Context Integration and Model Validation Framework', start: 10, duration: 6, color: '#F59E0B' },
     
-    // Task 4: Focus Group Studies
-    { id: 'T4.1', name: 'Focus Group Implementation in Three Selected Cities', start: 10, duration: 8, color: '#EF4444' },
-    { id: 'T4.2', name: 'LLM Model Enhancement through Focus Group Insights', start: 14, duration: 5, color: '#EF4444' },
+    // Task 4: Enhanced Focus Group Studies with LLM Assistance
+    { id: 'T4.1', name: 'LLM-Assisted Focus Group Implementation (Hybrid Approach)', start: 9, duration: 8, color: '#EF4444' },
+    { id: 'T4.2', name: 'Social Media Representativeness Validation & Gap Analysis', start: 12, duration: 6, color: '#EF4444' },
     
     // Task 5: Integrated Dashboard Development
-    { id: 'T5.1', name: 'Dashboard Architecture and Data Integration Framework', start: 12, duration: 6, color: '#8B5CF6' },
-    { id: 'T5.2', name: 'Deployment and Policy Integration Framework', start: 16, duration: 7, color: '#8B5CF6' },
+    { id: 'T5.1', name: 'Dashboard Architecture and Data Integration Framework', start: 11, duration: 7, color: '#8B5CF6' },
+    { id: 'T5.2', name: 'Deployment and Policy Integration Framework', start: 15, duration: 8, color: '#8B5CF6' },
     
     // Analysis and Reporting
-    { id: 'A1', name: 'Data Analysis & Triangulation', start: 18, duration: 5, color: '#6366F1' },
-    { id: 'A2', name: 'Report Writing & Dissemination', start: 20, duration: 7, color: '#6366F1' },
-    { id: 'A3', name: 'Knowledge Transfer & Capacity Building', start: 22, duration: 5, color: '#6366F1' },
+    { id: 'A1', name: 'Data Analysis & Triangulation (Multi-source)', start: 17, duration: 5, color: '#6366F1' },
+    { id: 'A2', name: 'Report Writing & Academic Dissemination', start: 19, duration: 6, color: '#6366F1' },
+    { id: 'A3', name: 'Knowledge Transfer & Policy Recommendations', start: 21, duration: 4, color: '#6366F1' },
   ];
 
   const months = Array.from({ length: 24 }, (_, i) => `M${i + 1}`);
   
   const taskCategories = [
     { name: 'Task 1: City Selection & Social Media Data Collection', color: '#3B82F6', tasks: ['T1.1', 'T1.2'] },
-    { name: 'Task 2: User Profiling & Demographic Inference', color: '#10B981', tasks: ['T2.1', 'T2.2'] },
-    { name: 'Task 3: Development of Customized LLMs', color: '#F59E0B', tasks: ['T3.1', 'T3.2'] },
-    { name: 'Task 4: Focus Group Studies', color: '#EF4444', tasks: ['T4.1', 'T4.2'] },
-    { name: 'Task 5: Integrated Dashboard Development', color: '#8B5CF6', tasks: ['T5.1', 'T5.2'] },
+    { name: 'Task 2: User Profiling & Demographic Inference for Gendered Experience', color: '#10B981', tasks: ['T2.1', 'T2.2'] },
+    { name: 'Task 3: Customized LLMs for Sentiment Analysis', color: '#F59E0B', tasks: ['T3.1', 'T3.2'] },
+    { name: 'Task 4: Enhanced Focus Group Studies with LLM Assistance', color: '#EF4444', tasks: ['T4.1', 'T4.2'] },
+    { name: 'Task 5: Integrated Dashboard for Gendered Mobility Analytics', color: '#8B5CF6', tasks: ['T5.1', 'T5.2'] },
     { name: 'Analysis & Reporting', color: '#6366F1', tasks: ['A1', 'A2', 'A3'] },
   ];
 
@@ -107,10 +163,9 @@ const GanttChart = () => {
         , _react2.default.createElement('div', { className: "border border-gray-300 rounded-lg overflow-hidden"   ,}
           /* Header with timeline */
           , _react2.default.createElement('div', { className: "gantt-header bg-gray-100 border-b border-gray-300"   ,}
-            , _react2.default.createElement('div', { className: "w-96 p-3 border-r border-gray-300 font-semibold text-gray-700"     ,}, "Research Activities"
-
+            , _react2.default.createElement('div', { className: "category-name-area font-semibold text-gray-700"    ,}, "Research Activities"
             )
-            , _react2.default.createElement('div', { className: "flex flex-1" ,}
+            , _react2.default.createElement('div', { className: "timeline-area" ,}
               , months.map((month, index) => (
                 _react2.default.createElement('div', { key: month, className: "month-cell p-2 text-center text-xs font-medium text-gray-600 border-r border-gray-200 last:border-r-0"        ,}
                   , month
@@ -124,10 +179,10 @@ const GanttChart = () => {
             _react2.default.createElement('div', { key: categoryIndex,}
               /* Category header */
               , _react2.default.createElement('div', { className: "gantt-header bg-gray-50 border-b border-gray-200"   ,}
-                , _react2.default.createElement('div', { className: "w-96 p-3 border-r border-gray-300 font-semibold text-gray-700 text-sm"      ,}
+                , _react2.default.createElement('div', { className: "category-name-area text-gray-700 text-sm"    ,}
                   , category.name
                 )
-                , _react2.default.createElement('div', { className: "flex" ,}
+                , _react2.default.createElement('div', { className: "timeline-area" ,}
                   , months.map((_, monthIndex) => (
                     _react2.default.createElement('div', { key: monthIndex, className: "month-cell border-r border-gray-200 last:border-r-0"     ,})
                   ))
@@ -141,11 +196,12 @@ const GanttChart = () => {
                 
                 return (
                   _react2.default.createElement('div', { key: taskId, className: "gantt-row border-b border-gray-200 hover:bg-gray-50"   ,}
-                    , _react2.default.createElement('div', { className: "w-96 p-3 border-r border-gray-300 text-sm text-gray-700 break-words whitespace-normal"     ,}
-                      , _react2.default.createElement('span', { className: "font-medium text-xs text-gray-500 mr-2"   ,}, task.id)
-                      , task.name
+                    , _react2.default.createElement('div', { className: "task-name-area"  ,}
+                      , _react2.default.createElement('div', { className: "task-content" ,}
+                        , _react2.default.createElement('div', { className: "task-name" ,}, task.name)
+                      )
                     )
-                    , _react2.default.createElement('div', { className: "flex flex-1 relative"  ,}
+                    , _react2.default.createElement('div', { className: "timeline-area relative"  ,}
                       , months.map((_, monthIndex) => (
                         _react2.default.createElement('div', { key: monthIndex, className: "task-cell border-r border-gray-200 last:border-r-0 relative"     ,}
                           /* Task bar */

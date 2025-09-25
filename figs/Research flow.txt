@@ -1,0 +1,86 @@
+flowchart TB
+    subgraph main [" "]
+        direction TB
+        
+        subgraph overview ["Research Innovation"]
+            direction TB
+            A1["🎯 Mixed-Methods Approach"] 
+            A2["🌍 Global Perspective"] 
+            A3["🤖 AI-Powered Analysis"]
+        end
+        
+        subgraph task1 ["Task 1: City Selection and Social Media Data Collection"]
+            direction TB
+            B1["🏙️ Multidimensional City Selection<br/>GDP, GII, Digital Infrastructure"]
+            B2["📱 Social Media Data Mining<br/>Twitter, Facebook, Instagram"] 
+            B3["🔧 Data Processing Infrastructure<br/>Multilingual NLP Pipeline"]
+            B4["⚖️ Ethical Framework<br/>Privacy and Quality Management"]
+        end
+        
+        subgraph task2 ["Task 2: User Profiling and Demographic Inference"]
+            direction TB
+            C1["👤 Multi-modal Demographic Framework<br/>Name-based and Linguistic Analysis"]
+            C2["🔍 Metro-Specific Content Filtering<br/>Authentic Experience Identification"]
+            C3["✅ Cross-cultural Validation<br/>Gender Classification Accuracy"]
+        end
+        
+        subgraph task3 ["Task 3: Customized LLM Development"]
+            direction TB
+            D1["🧠 LLM Architecture Development<br/>Domain-specific Training Data"]
+            D2["🌐 Context Integration<br/>Spatio-temporal Encoders"]
+            D3["💭 Model Validation Framework<br/>Sentiment Analysis Accuracy"]
+        end
+        
+        subgraph task4 ["Task 4: LLM-Assisted Focus Group Studies"]
+            direction TB
+            E1["👥 Strategic Focus Groups<br/>Addressing Representativeness"]
+            E2["🤖 LLM-Assisted Implementation<br/>Hybrid AI-Human Moderation"]
+            E3["🔗 Mixed-Methods Integration<br/>Bias Correction Framework"]
+        end
+        
+        subgraph task5 ["Task 5: Integrated Dashboard Development"]
+            direction TB
+            F1["📊 Dashboard Architecture<br/>Advanced Visualization"]
+            F2["🌐 Data Integration Framework<br/>Real-time Processing"]
+            F3["📋 Policy Integration<br/>Deployment and Maintenance"]
+        end
+    end
+    
+    overview --> task1
+    task1 --> task2
+    task2 --> task3
+    task3 --> task4
+    task4 --> task5
+    
+    style main fill:#f8f9fa,stroke:#666,stroke-width:2px,color:#333
+    style overview fill:#e8f5e8,stroke:#27ae60,stroke-width:2px,color:#2c3e50
+    style task1 fill:#fff3e0,stroke:#f39c12,stroke-width:2px,color:#2c3e50
+    style task2 fill:#f3e5f5,stroke:#9b59b6,stroke-width:2px,color:#2c3e50
+    style task3 fill:#e3f2fd,stroke:#3498db,stroke-width:2px,color:#2c3e50
+    style task4 fill:#ffebee,stroke:#e74c3c,stroke-width:2px,color:#2c3e50
+    style task5 fill:#f1f8e9,stroke:#16a085,stroke-width:2px,color:#2c3e50
+    
+    style A1 fill:#f1f8e9,color:#2c3e50
+    style A2 fill:#f1f8e9,color:#2c3e50
+    style A3 fill:#f1f8e9,color:#2c3e50
+    
+    style B1 fill:#fef9e7,color:#2c3e50
+    style B2 fill:#fef9e7,color:#2c3e50
+    style B3 fill:#fef9e7,color:#2c3e50
+    style B4 fill:#fef9e7,color:#2c3e50
+    
+    style C1 fill:#faf2ff,color:#2c3e50
+    style C2 fill:#faf2ff,color:#2c3e50
+    style C3 fill:#faf2ff,color:#2c3e50
+    
+    style D1 fill:#f0f8ff,color:#2c3e50
+    style D2 fill:#f0f8ff,color:#2c3e50
+    style D3 fill:#f0f8ff,color:#2c3e50
+    
+    style E1 fill:#fff5f5,color:#2c3e50
+    style E2 fill:#fff5f5,color:#2c3e50
+    style E3 fill:#fff5f5,color:#2c3e50
+    
+    style F1 fill:#f8fff8,color:#2c3e50
+    style F2 fill:#f8fff8,color:#2c3e50
+    style F3 fill:#f8fff8,color:#2c3e50
