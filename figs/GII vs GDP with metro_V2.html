@@ -282,10 +282,10 @@
             
             <!-- Scale Labels -->
             <div class="scale-labels x-scale" style="left: 0%;">$0</div>
-            <div class="scale-labels x-scale" style="left: 25%;">$32.5K</div>
-            <div class="scale-labels x-scale" style="left: 50%;">$65K</div>
-            <div class="scale-labels x-scale" style="left: 75%;">$97.5K</div>
-            <div class="scale-labels x-scale" style="left: 100%;">$130K</div>
+            <div class="scale-labels x-scale" style="left: 25%;">$8.78K</div>
+            <div class="scale-labels x-scale" style="left: 50%;">$17.56K</div>
+            <div class="scale-labels x-scale" style="left: 75%;">$59.28K</div>
+            <div class="scale-labels x-scale" style="left: 100%;">$101K</div>
             
             <div class="scale-labels y-scale" style="top: 0%;">0.55</div>
             <div class="scale-labels y-scale" style="top: 25%;">0.41</div>
@@ -367,7 +367,7 @@
             {name: "Denmark", gdp: 71402.14, gii: 0.003, continent: "europe"},
             {name: "Finland", gdp: 53750.00, gii: 0.021, continent: "europe"},
             {name: "Austria", gdp: 51104.00, gii: 0.033, continent: "europe"},
-            {name: "Switzerland", gdp: 100413.00, gii: 0.01, continent: "europe"},
+            {name: "Switzerland", gdp: 100631.80, gii: 0.01, continent: "europe"},
             {name: "Belgium", gdp: 55344.00, gii: 0.031, continent: "europe"},
             {name: "Portugal", gdp: 25252.00, gii: 0.076, continent: "europe"},
             {name: "Greece", gdp: 18613.00, gii: 0.103, continent: "europe"},
@@ -400,7 +400,7 @@
             {name: "Morocco", gdp: 3876.00, gii: 0.438, continent: "africa"},
             
             // Middle East (Asia)
-            {name: "Turkey", gdp: 10618.00, gii: 0.227, continent: "asia"},
+            {name: "Turkey", gdp: 13105.00, gii: 0.227, continent: "asia", highlighted: true},
             {name: "United Arab Emirates", gdp: 49040.69, gii: 0.04, continent: "asia"},
             {name: "Qatar", gdp: 80195.87, gii: 0.195, continent: "asia",  highlighted: true},
             {name: "Israel", gdp: 55344.00, gii: 0.08, continent: "asia"},
@@ -418,12 +418,24 @@
         
         // Chart ranges
         const minGDP = 0;
-        const maxGDP = 130000;
+        const maxGDP = 101000;
+        const medianGDP = 17559; // Median value maps to 50%
         const minGII = 0;
         const maxGII = 0.55;
         
+        // Non-linear mapping function for GDP to chart position
+        function mapGDPtoX(gdp) {
+            if (gdp <= medianGDP) {
+                // Left half: 0 to medianGDP maps to 0% to 50%
+                return (gdp / medianGDP) * (chartWidth / 2);
+            } else {
+                // Right half: medianGDP to maxGDP maps to 50% to 100%
+                return (chartWidth / 2) + ((gdp - medianGDP) / (maxGDP - medianGDP)) * (chartWidth / 2);
+            }
+        }
+        
         // Highlighted cities to show labels
-        const highlightedCities = ['Hong Kong SAR, China', 'India', 'Qatar', 'Iran', 'United Arab Emirates'];
+        const highlightedCities = ['Hong Kong SAR, China', 'India', 'Turkey'];
         
         // Store label positions to avoid overlap
         const labelPositions = [];
@@ -438,8 +450,8 @@
                 point.classList.add('highlighted-point');
             }
             
-            // Calculate position
-            const x = ((country.gdp - minGDP) / (maxGDP - minGDP)) * chartWidth;
+            // Calculate position using non-linear mapping
+            const x = mapGDPtoX(country.gdp);
             const y = chartHeight - ((country.gii - minGII) / (maxGII - minGII)) * chartHeight;
             
             // Clamp values to stay within chart bounds
@@ -457,7 +469,7 @@
         const highlightedCountries = countries.filter(country => highlightedCities.includes(country.name));
         
         highlightedCountries.forEach(country => {
-            const x = ((country.gdp - minGDP) / (maxGDP - minGDP)) * chartWidth;
+            const x = mapGDPtoX(country.gdp);
             const y = chartHeight - ((country.gii - minGII) / (maxGII - minGII)) * chartHeight;
             const clampedX = Math.max(0, Math.min(chartWidth, x));
             const clampedY = Math.max(0, Math.min(chartHeight, y));
@@ -523,7 +535,7 @@
         // Add hover functionality for non-highlighted points
         countries.forEach(country => {
             if (!highlightedCities.includes(country.name)) {
-                const x = ((country.gdp - minGDP) / (maxGDP - minGDP)) * chartWidth;
+                const x = mapGDPtoX(country.gdp);
                 const y = chartHeight - ((country.gii - minGII) / (maxGII - minGII)) * chartHeight;
                 const clampedX = Math.max(0, Math.min(chartWidth, x));
                 const clampedY = Math.max(0, Math.min(chartHeight, y));
