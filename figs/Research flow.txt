@@ -11,38 +11,38 @@ flowchart TB
         
         subgraph task1 ["Task 1: City Selection and Social Media Data Collection"]
             direction TB
-            B1["🏙️ Multidimensional City Selection<br/>GDP, GII, Digital Infrastructure"]
-            B2["📱 Social Media Data Mining<br/>Twitter, Facebook, Instagram"] 
-            B3["🔧 Data Processing Infrastructure<br/>Multilingual NLP Pipeline"]
-            B4["⚖️ Ethical Framework<br/>Privacy and Quality Management"]
+            B1["🏙️ Multidimensional City Selection<br/>GDP per capita, GII, Digital Infrastructure,<br/>Urban Characteristics, Transport Metrics"]
+            B2["📱 Social Media Data Mining<br/>Twitter, Facebook, Instagram<br/>Multilingual NLP Processing"] 
+            B3["🔧 Data Preprocessing<br/>Deduplication, Language ID, Bot Removal,<br/>Anonymization, Metadata Extraction"]
+            B4["⚖️ Ethical Data Management<br/>Privacy Protection & Quality Assurance"]
         end
         
         subgraph task2 ["Task 2: User Profiling and Demographic Inference"]
             direction TB
-            C1["👤 Multi-modal Demographic Framework<br/>Name-based and Linguistic Analysis"]
-            C2["🔍 Metro-Specific Content Filtering<br/>Authentic Experience Identification"]
-            C3["✅ Cross-cultural Validation<br/>Gender Classification Accuracy"]
+            C1["👤 Multi-modal Demographic Framework<br/>Name-based Matching, Linguistic Analysis,<br/>Social Network Analysis, Profile Image Analysis"]
+            C2["🔍 Metro-Specific Content Filtering<br/>LLM-driven Semantic Relevance Scoring<br/>Authentic Experience Identification"]
+            C3["✅ Cross-cultural Validation<br/>Gender Classification Accuracy & Performance<br/>Across Diverse Cultural Contexts"]
         end
         
         subgraph task3 ["Task 3: Customized LLM Development"]
             direction TB
-            D1["🧠 LLM Architecture Development<br/>Domain-specific Training Data"]
-            D2["🌐 Context Integration<br/>Spatio-temporal Encoders"]
-            D3["💭 Model Validation Framework<br/>Sentiment Analysis Accuracy"]
+            D1["🧠 LLM Architecture Development<br/>Domain-specific Sentiment Analysis,<br/>Multilingual Processing, Bias Mitigation"]
+            D2["🌐 Context Integration<br/>Spatio-temporal Encoders for Context-aware<br/>Sentiment Classification"]
+            D3["💭 Model Validation Framework<br/>Linguistic, Cultural & Operational Context<br/>Validation, Comparative Analysis"]
         end
         
         subgraph task4 ["Task 4: LLM-Assisted Focus Group Studies"]
             direction TB
-            E1["👥 Strategic Focus Groups<br/>Addressing Representativeness"]
-            E2["🤖 LLM-Assisted Implementation<br/>Hybrid AI-Human Moderation"]
-            E3["🔗 Mixed-Methods Integration<br/>Bias Correction Framework"]
+            E1["👥 Strategic Focus Groups<br/>Hong Kong, Delhi, Istanbul<br/>Pattern Interpretation, Mechanism Exploration, Contextualization"]
+            E2["🤖 LLM-Assisted Implementation<br/>AI Moderation + Human Oversight<br/>Speech-to-Text & Text-to-Speech Systems"]
+            E3["🔗 Mixed-Methods Integration<br/>Qualitative Insights Integration<br/>Cultural Sensitivity & Triangulation"]
         end
         
         subgraph task5 ["Task 5: Integrated Dashboard Development"]
             direction TB
-            F1["📊 Dashboard Architecture<br/>Advanced Visualization"]
-            F2["🌐 Data Integration Framework<br/>Real-time Processing"]
-            F3["📋 Policy Integration<br/>Deployment and Maintenance"]
+            F1["📊 Dashboard Architecture<br/>Advanced Visualization & Interactive Features<br/>GIS Integration"]
+            F2["🌐 Analytics Framework<br/>Spatial-temporal Heatmaps, Trend Analysis,<br/>Anomaly Detection, Comparative Benchmarking"]
+            F3["📋 Policy Integration<br/>Real-time Data Processing, Actionable Insights<br/>for Policymakers & Transit Operators"]
         end
     end
     
