@@ -36,6 +36,7 @@
         min-width: 80px;
         flex-shrink: 0;
         display: inline-block;
+        white-space: nowrap;
       }
       .task-cell {
         width: 80px;
@@ -57,34 +58,35 @@
       }
       /* 任务名称区域样式 */
       .task-name-area {
-        width: 380px;
-        min-width: 380px;
-        max-width: 380px;
+        width: 350px;
+        min-width: 350px;
+        max-width: 350px;
         flex-shrink: 0;
-        padding: 12px;
+        padding: 3px;
         border-right: 1px solid #d1d5db;
         word-wrap: break-word;
         word-break: break-word;
         hyphens: auto;
         white-space: normal;
-        line-height: 1.4;
+        line-height: 1.2;
         display: flex;
         flex-direction: column;
         justify-content: center;
       }
       .category-name-area {
-        width: 380px;
-        min-width: 380px;
-        max-width: 380px;
+        width: 350px;
+        min-width: 350px;
+        max-width: 350px;
         flex-shrink: 0;
-        padding: 12px;
+        padding: 3px;
         border-right: 1px solid #d1d5db;
         word-wrap: break-word;
         word-break: break-word;
         hyphens: auto;
         white-space: normal;
-        line-height: 1.4;
+        line-height: 1.2;
         font-weight: 600;
+        font-size: 16px;
       }
       /* 确保任务名称的布局 */
       .task-content {
@@ -97,7 +99,7 @@
       }
       .task-name {
         color: #374151;
-        font-size: 14px;
+        font-size: 16px;
         line-height: 1.3;
         font-weight: 500;
       }
@@ -113,29 +115,29 @@
 const GanttChart = () => {
   const tasks = [
     // Task 1: City Selection and Social Media Data Collection
-    { id: 'T1.1', name: 'Selection of Global Cities (Multidimensional Framework)', start: 1, duration: 3, color: '#3B82F6' },
-    { id: 'T1.2', name: 'Social Media Data Collection and Preprocessing (3-year data)', start: 2, duration: 8, color: '#3B82F6' },
+    { id: 'T1.1', name: 'Selection of Global Cities (Multidimensional Framework)', start: 1, duration: 2, color: '#3B82F6' },
+    { id: 'T1.2', name: 'Social Media Data Collection and Preprocessing (3-year data)', start: 3, duration: 2, color: '#3B82F6' },
     
     // Task 2: User Profiling and Demographic Inference
-    { id: 'T2.1', name: 'Multi-modal Demographic Inference Framework Development', start: 4, duration: 6, color: '#10B981' },
-    { id: 'T2.2', name: 'Metro-Specific Content Filtering (LLM-driven)', start: 7, duration: 5, color: '#10B981' },
+    { id: 'T2.1', name: 'Multi-modal Demographic Inference Framework Development', start: 5, duration: 4, color: '#10B981' },
+    { id: 'T2.2', name: 'Metro-Specific Content Filtering (LLM-driven)', start: 7, duration: 4, color: '#10B981' },
     
     // Task 3: Development of Customized Large Language Models
-    { id: 'T3.1', name: 'LLM Architecture Development and Training Data Curation', start: 6, duration: 7, color: '#F59E0B' },
-    { id: 'T3.2', name: 'Context Integration and Model Validation Framework', start: 10, duration: 6, color: '#F59E0B' },
+    { id: 'T3.1', name: 'LLM Architecture Development and Training Data Curation', start: 9, duration: 6, color: '#F59E0B' },
+    { id: 'T3.2', name: 'Context Integration and Model Validation Framework', start: 13, duration: 4, color: '#F59E0B' },
     
     // Task 4: Enhanced Focus Group Studies with LLM Assistance
-    { id: 'T4.1', name: 'LLM-Assisted Focus Group Implementation (Hybrid Approach)', start: 9, duration: 8, color: '#EF4444' },
-    { id: 'T4.2', name: 'Social Media Representativeness Validation & Gap Analysis', start: 12, duration: 6, color: '#EF4444' },
+    { id: 'T4.1', name: 'LLM-Assisted Focus Group Implementation (Hybrid Approach)', start: 15, duration: 4, color: '#EF4444' },
+    { id: 'T4.2', name: 'Social Media Representativeness Validation & Gap Analysis', start: 17, duration: 4, color: '#EF4444' },
     
     // Task 5: Integrated Dashboard Development
-    { id: 'T5.1', name: 'Dashboard Architecture and Data Integration Framework', start: 11, duration: 7, color: '#8B5CF6' },
-    { id: 'T5.2', name: 'Deployment and Policy Integration Framework', start: 15, duration: 8, color: '#8B5CF6' },
+    { id: 'T5.1', name: 'Dashboard Architecture and Data Integration Framework', start: 19, duration: 4, color: '#8B5CF6' },
+    { id: 'T5.2', name: 'Deployment and Policy Integration Framework', start: 21, duration: 2, color: '#8B5CF6' },
     
     // Analysis and Reporting
-    { id: 'A1', name: 'Data Analysis & Triangulation (Multi-source)', start: 17, duration: 5, color: '#6366F1' },
-    { id: 'A2', name: 'Report Writing & Academic Dissemination', start: 19, duration: 6, color: '#6366F1' },
-    { id: 'A3', name: 'Knowledge Transfer & Policy Recommendations', start: 21, duration: 4, color: '#6366F1' },
+    { id: 'A1', name: 'Data Analysis & Triangulation (Multi-source)', start: 23, duration: 2, color: '#6366F1' },
+    { id: 'A2', name: 'Report Writing & Academic Dissemination', start: 23, duration: 4, color: '#6366F1' },
+    { id: 'A3', name: 'Knowledge Transfer & Policy Recommendations', start: 25, duration: 4, color: '#6366F1' },
   ];
 
   const months = Array.from({ length: 14 }, (_, i) => {
