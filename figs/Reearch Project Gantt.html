@@ -29,7 +29,7 @@
         overflow-x: auto;
       }
       .gantt-chart {
-        min-width: 2500px;
+        min-width: 1300px;
       }
       .month-cell {
         width: 80px;
@@ -138,7 +138,30 @@ const GanttChart = () => {
     { id: 'A3', name: 'Knowledge Transfer & Policy Recommendations', start: 21, duration: 4, color: '#6366F1' },
   ];
 
-  const months = Array.from({ length: 24 }, (_, i) => `M${i + 1}`);
+  const months = Array.from({ length: 14 }, (_, i) => {
+    const start = i * 2 + 1;
+    const end = start + 1;
+    return `M${start}-M${end}`;
+  });
+  
+  // Helper function to check if task should display in month pair
+  const taskShouldShow = (task, pairIndex) => {
+    const pairStart = pairIndex * 2 + 1;
+    const pairEnd = pairStart + 2;
+    return task.start < pairEnd && task.start + task.duration > pairStart;
+  };
+  
+  // Helper function to determine left border for task bar
+  const isTaskStart = (task, pairIndex) => {
+    const pairStart = pairIndex * 2 + 1;
+    return task.start >= pairStart && task.start < pairStart + 2;
+  };
+  
+  // Helper function to determine right border for task bar  
+  const isTaskEnd = (task, pairIndex) => {
+    const pairEnd = (pairIndex + 1) * 2;
+    return task.start + task.duration > pairEnd && task.start + task.duration <= pairEnd + 2;
+  };
   
   const taskCategories = [
     { name: 'Task 1: City Selection & Social Media Data Collection', color: '#3B82F6', tasks: ['T1.1', 'T1.2'] },
@@ -205,20 +228,20 @@ const GanttChart = () => {
                       , months.map((_, monthIndex) => (
                         _react2.default.createElement('div', { key: monthIndex, className: "task-cell border-r border-gray-200 last:border-r-0 relative"     ,}
                           /* Task bar */
-                          , monthIndex + 1 >= task.start && monthIndex + 1 < task.start + task.duration && (
+                          , taskShouldShow(task, monthIndex) && (
                             _react2.default.createElement('div', {
                               className: "absolute top-2 bottom-2 rounded"   ,
                               style: {
                                 backgroundColor: task.color,
-                                left: monthIndex + 1 === task.start ? '4px' : '0px',
-                                right: monthIndex + 1 === task.start + task.duration - 1 ? '4px' : '0px',
+                                left: isTaskStart(task, monthIndex) ? '4px' : '0px',
+                                right: isTaskEnd(task, monthIndex) ? '4px' : '0px',
                                 opacity: 0.8
                               },}
                             )
                           )
 
                           /* Milestone marker */
-                          , task.milestone && monthIndex + 1 === task.start && (
+                          , task.milestone && isTaskStart(task, monthIndex) && (
                             _react2.default.createElement('div', { className: "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"     ,}
                               , _react2.default.createElement('div', { 
                                 className: "w-3 h-3 rotate-45"  ,
