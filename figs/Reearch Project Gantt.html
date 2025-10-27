@@ -135,8 +135,7 @@ const GanttChart = () => {
     { id: 'T5.2', name: 'Policy Integration Framework', start: 21, duration: 2, color: '#8B5CF6' },
     
     // Analysis and Reporting
-    { id: 'A1', name: 'Data Analysis & Triangulation (Multi-source)', start: 23, duration: 2, color: '#6366F1' },
-    { id: 'A2', name: 'Report Writing & Academic Dissemination', start: 23, duration: 4, color: '#6366F1' },
+    { id: 'A2', name: 'Report Writing & Dissemination', start: 23, duration: 4, color: '#6366F1' },
     { id: 'A3', name: 'Knowledge Transfer & Policy Recommendations', start: 25, duration: 4, color: '#6366F1' },
   ];
 
@@ -171,7 +170,7 @@ const GanttChart = () => {
     { name: 'Task 3: Customized LLM for Gendered Mobility Analysis', color: '#F59E0B', tasks: ['T3.1', 'T3.2'] },
     { name: 'Task 4: Focus Group Studies in Three Asian Cities', color: '#EF4444', tasks: ['T4.1', 'T4.2'] },
     { name: 'Task 5: Prototype Dashboard for Gendered Mobility in Metro Systems', color: '#8B5CF6', tasks: ['T5.1', 'T5.2'] },
-    { name: 'Analysis & Reporting', color: '#6366F1', tasks: ['A1', 'A2', 'A3'] },
+    { name: 'Research Outputs & Knowledge Transfer', color: '#6366F1', tasks: ['A1', 'A2', 'A3'] },
   ];
 
   const getTaskById = (id) => tasks.find(task => task.id === id);
